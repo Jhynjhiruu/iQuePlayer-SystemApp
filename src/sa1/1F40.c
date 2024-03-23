@@ -54,7 +54,7 @@ void func_80003068(void) {
 
 #ifdef NON_EQUIVALENT
 s32 func_80003094(void) {
-    char sp10[16];
+    /*char sp10[16];
     char sp20[8];
     BbId bbId;
     s32 temp_s0;
@@ -113,7 +113,8 @@ s32 func_80003094(void) {
 
     osBbFClose(fd);
     osBbFRename(&sp10, &sp20);
-    return ret;
+    return ret;*/
+    return 0;
 }
 #else
 INCLUDE_RODATA("asm/nonmatchings/sa1/1F40", D_80019600);
@@ -144,7 +145,7 @@ s32 func_800032B8(const char* arg0, u32 arg1, s32 arg2) {
 
     var_s5 = 0;
 
-    fd = osBbFOpen(arg0, D_80019614);
+    fd = osBbFOpen(arg0, "r");
     if (fd < 0) {
         return fd;
     }

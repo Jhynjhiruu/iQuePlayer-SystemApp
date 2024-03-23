@@ -87,7 +87,7 @@ s32 func_800028FC(s32 arg0, s32 arg1) {
 }
 
 s32 func_80002950(u8* arg0, void* arg1, s32 arg2) {
-    SHA1Context sha1Ctx;
+    /*SHA1Context sha1Ctx;
     BbShaHash hash;
 
     SHA1Reset(&sha1Ctx);
@@ -97,13 +97,14 @@ s32 func_80002950(u8* arg0, void* arg1, s32 arg2) {
     if (memcmp(&hash, arg0, sizeof(hash)) == 0) {
         return TRUE;
     }
-    return FALSE;
+    return FALSE;*/
+    return TRUE;
 }
 
 s32 skVerifyHash(BbShaHash* hash, BbEccSig* outSignature, BbRsaCert**, BbAppLaunchCrls*);
 
 s32 func_800029CC(u8* arg0) {
-    BbRsaCert* certChain[3];
+    /*BbRsaCert* certChain[3];
     BbShaHash hash;
     SHA1Context sha1Ctx;
     BbContentMetaDataHead* cmd = (BbContentMetaDataHead*)arg0;
@@ -135,7 +136,8 @@ s32 func_800029CC(u8* arg0) {
     SHA1Input(&sha1Ctx, (void*)cmd, sizeof(BbContentMetaDataHead) - sizeof(BbRsaSig2048));
     SHA1Result(&sha1Ctx, (u8*)&hash);
 
-    return skVerifyHash(&hash, &cmd->contentMetaDataSign, certChain, appLaunchCrls);
+    return skVerifyHash(&hash, &cmd->contentMetaDataSign, certChain, appLaunchCrls);*/
+    return 0;
 }
 
 void* func_80002ABC(BbContentMetaDataHead* cmd, u16* fsBlockList, s32 maxListLen, void* dst) {
@@ -173,11 +175,11 @@ void* func_80002ABC(BbContentMetaDataHead* cmd, u16* fsBlockList, s32 maxListLen
     osMemSize = 0x400000;
     osTvType = OS_TV_NTSC;
 
-    if (cmd != NULL) {
+    /*if (cmd != NULL) {
         if (!func_80002950((u8*)cmd->hash, dst, cmd->size)) {
             return NULL;
         }
-    }
+    }*/
     return dst;
 }
 
