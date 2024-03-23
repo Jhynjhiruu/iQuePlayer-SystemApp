@@ -80,7 +80,7 @@ void func_80003068(void) {
 }
 
 s32 func_80003094(void) {
-    char sp10[9] = "temp.tmp";
+    /*char sp10[9] = "temp.tmp";
     char sp20[7] = "id.sys";
     BbId bbId;
     s32 temp_s0;
@@ -136,7 +136,8 @@ s32 func_80003094(void) {
         ret = -2;
     }
 end:
-    return ret;
+    return ret;*/
+    return 0;
 }
 
 u32 func_8000328C(u8* data, s32 size, u32 initVal) {
