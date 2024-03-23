@@ -79,7 +79,35 @@ void func_80003068(void) {
     osBbSetErrorLed(0);
 }
 
+s32 skMemCopy(void * dest, void * src, size_t len);
+
 s32 func_80003094(void) {
+    s32 fd;
+    
+    bzero(D_8003FCA0, sizeof(D_8003FCA0));
+
+    if (skMemCopy(D_8003FCA0, 0x9FCA0000, sizeof(BbVirage2)) < 0) {
+        return 0;
+    }
+
+    if (osBbFInit(&D_80037CA0) < 0) {
+        return 0;
+    }
+    
+    osBbFDelete("v2.bin");
+    if (osBbFCreate("v2.bin", 1, sizeof(D_8003FCA0)) < 0) {
+        return 0;
+    }
+
+    fd = osBbFOpen("v2.bin", "w");
+    if (fd < 0) {
+        return 0;
+    }
+    
+    osBbFWrite(fd, 0, &D_8003FCA0, sizeof(D_8003FCA0));
+
+    osBbFClose(fd);
+
     /*char sp10[9] = "temp.tmp";
     char sp20[7] = "id.sys";
     BbId bbId;
@@ -456,7 +484,7 @@ void func_800033CC(void) {
                     n -= remaining;
                 }
                 break;
-
+            
             default:
                 dataOut[1] = -1;
                 ret = osBbWriteHost(dataOut, sizeof(dataOut));
