@@ -8,6 +8,10 @@
 #include "include_asm.h"
 
 s32 osBbAtbSetup(u32 vAddrBase, u16* fsBlockList, u32 maxListLen);
+s32 expand_gzip(void* src, void* dst, size_t, size_t);
+s32 skVerifyHash(BbShaHash* hash, BbEccSig* outSignature, BbRsaCert**, BbAppLaunchCrls*);
+
+extern u16 D_80037C10[72];
 extern u8 D_80033C10[0x4000];
 
 s32 func_800027A0(s32 arg0, s32 arg1) {
@@ -101,8 +105,6 @@ s32 func_80002950(u8* arg0, void* arg1, s32 arg2) {
     return TRUE;
 }
 
-s32 skVerifyHash(BbShaHash* hash, BbEccSig* outSignature, BbRsaCert**, BbAppLaunchCrls*);
-
 s32 func_800029CC(u8* arg0) {
     /*BbRsaCert* certChain[3];
     BbShaHash hash;
@@ -151,7 +153,7 @@ void* func_80002ABC(BbContentMetaDataHead* cmd, u16* fsBlockList, s32 maxListLen
 
     if (maxListLen >= 0) {
         fsBlockList[maxListLen] = NULL;
-        if (osBbAtbSetup(0x10000000, fsBlockList, maxListLen + 1) < 0) {
+        if (osBbAtbSetup(PI_DOM1_ADDR2, fsBlockList, maxListLen + 1) < 0) {
             return NULL;
         }
     }
@@ -182,8 +184,6 @@ void* func_80002ABC(BbContentMetaDataHead* cmd, u16* fsBlockList, s32 maxListLen
     }*/
     return dst;
 }
-
-s32 expand_gzip(void* src, void* dst, size_t, size_t);
 
 void* func_80002BF8(BbContentMetaDataHead* cmd, u16* fsBlockList, s32 maxListLen, s32 arg3) {
     u32 temp_s0;
@@ -237,11 +237,11 @@ s32 func_80002CB0(s32* arg0, u32 arg1) {
         }
 
         if (i == 0) {
-            *arg0 = func_80002838(IO_READ(PI_BASE_REG + 0x10400));
+            *arg0 = func_80002838(IO_READ(PI_10400_REG));
         }
 
         for (j = 0; j < 0x200; j += 4) {
-            *var_s1++ = IO_READ(PI_BASE_REG + 0x10000 + j);
+            *var_s1++ = IO_READ(PI_10000_BUF(j));
         }
     }
 
@@ -255,8 +255,6 @@ void func_80002D94(void (*arg0)(), void* arg1) {
     __osDisableInt();
     arg0(arg1);
 }
-
-extern u16 D_80037C10[72];
 
 void* func_80002DCC(void) {
     u32 sp10 = 0;
@@ -278,7 +276,7 @@ void* func_80002DCC(void) {
         if (func_800027A0(sp14 << 5, 0) < 0) {
             return 0;
         }
-        sp14 = func_80002838(IO_READ(PI_BASE_REG + 0x10400));
+        sp14 = func_80002838(IO_READ(PI_10400_REG));
     }
 
     if (func_80002CB0(&sp14, 0) < 0) {
@@ -296,7 +294,7 @@ void* func_80002DCC(void) {
         if (func_800027A0(D_80037C10[i - 1] << 5, 0) < 0) {
             return 0;
         }
-        D_80037C10[i] = func_80002838(IO_READ(PI_BASE_REG + 0x10400));
+        D_80037C10[i] = func_80002838(IO_READ(PI_10400_REG));
     }
 
     D_80037C10[i] = 0;
